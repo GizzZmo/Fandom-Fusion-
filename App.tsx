@@ -1,3 +1,18 @@
+/**
+ * Fandom-Fusion Main Application
+ * 
+ * This is the root component of the Fandom-Fusion project dashboard.
+ * It manages the overall layout, navigation state, and renders all major sections:
+ * - Project overview
+ * - Development phases
+ * - Technical architecture
+ * - Interactive prompt generator
+ * - Crossover fusion generator
+ * 
+ * The app uses scroll-based navigation to highlight the active section in the header.
+ * 
+ * @module App
+ */
 
 import React, { useState, useEffect, useRef } from 'react';
 import Header from './components/Header';
@@ -8,6 +23,13 @@ import GeneratorDemo from './components/GeneratorDemo';
 import FusionDemo from './components/FusionDemo';
 import Footer from './components/Footer';
 
+/**
+ * Main application component
+ * 
+ * Manages scroll-based section tracking and renders the complete dashboard
+ * 
+ * @component
+ */
 const App: React.FC = () => {
     const [activeSection, setActiveSection] = useState<string>('oversikt');
     const sectionRefs = {
