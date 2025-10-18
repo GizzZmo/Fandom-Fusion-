@@ -1,0 +1,5 @@
+{
+  "name": "Fandom-Fusion Project Dashboard",
+  "description": "An interactive dashboard for the Fandom-Fusion project, a tool that uses AI to generate creative prompts for comic creators. It showcases the project plan, architecture, and provides a live demo of the prompt generator.",
+  "requestFramePermissions": []
+}
