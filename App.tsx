@@ -1,19 +1,3 @@
-/**
- * Fandom-Fusion Main Application
- * 
- * This is the root component of the Fandom-Fusion project dashboard.
- * It manages the overall layout, navigation state, and renders all major sections:
- * - Project overview
- * - Development phases
- * - Technical architecture
- * - Interactive prompt generator
- * - Crossover fusion generator
- * 
- * The app uses scroll-based navigation to highlight the active section in the header.
- * 
- * @module App
- */
-
 import React, { useState, useEffect, useRef } from 'react';
 import Header from './components/Header';
 import Overview from './components/Overview';
@@ -22,22 +6,27 @@ import Architecture from './components/Architecture';
 import GeneratorDemo from './components/GeneratorDemo';
 import FusionDemo from './components/FusionDemo';
 import Footer from './components/Footer';
+import ApiKeyManager from './components/ApiKeyManager';
 
-/**
- * Main application component
- * 
- * Manages scroll-based section tracking and renders the complete dashboard
- * 
- * @component
- */
 const App: React.FC = () => {
     const [activeSection, setActiveSection] = useState<string>('oversikt');
+    const [apiKey, setApiKey] = useState<string>('');
+
+    useEffect(() => {
+        const storedKey = localStorage.getItem('gemini_api_key');
+        if (storedKey) {
+            setApiKey(storedKey);
+        }
+    }, []);
+    
+    // FIX: The ref type was changed from the generic HTMLElement to the more specific HTMLDivElement.
+    // This ensures type compatibility with the `ref` prop of the `div` elements they are attached to, resolving the TypeScript error.
     const sectionRefs = {
-        oversikt: useRef<HTMLElement>(null),
-        faser: useRef<HTMLElement>(null),
-        arkitektur: useRef<HTMLElement>(null),
-        demo: useRef<HTMLElement>(null),
-        fusion: useRef<HTMLElement>(null),
+        oversikt: useRef<HTMLDivElement>(null),
+        faser: useRef<HTMLDivElement>(null),
+        arkitektur: useRef<HTMLDivElement>(null),
+        demo: useRef<HTMLDivElement>(null),
+        fusion: useRef<HTMLDivElement>(null),
     };
 
     useEffect(() => {
@@ -74,10 +63,11 @@ const App: React.FC = () => {
             <Header activeSection={activeSection} />
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 <div ref={sectionRefs.oversikt}><Overview /></div>
+                <ApiKeyManager apiKey={apiKey} setApiKey={setApiKey} />
                 <div ref={sectionRefs.faser}><Phases /></div>
                 <div ref={sectionRefs.arkitektur}><Architecture /></div>
-                <div ref={sectionRefs.demo}><GeneratorDemo /></div>
-                <div ref={sectionRefs.fusion}><FusionDemo /></div>
+                <div ref={sectionRefs.demo}><GeneratorDemo apiKey={apiKey} /></div>
+                <div ref={sectionRefs.fusion}><FusionDemo apiKey={apiKey} /></div>
             </main>
             <Footer />
         </>
